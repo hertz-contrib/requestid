@@ -2,17 +2,20 @@ package requestid
 
 import (
 	"context"
+	"net/http"
+	"testing"
+
 	"github.com/cloudwego/hertz/pkg/app"
 	hzconfig "github.com/cloudwego/hertz/pkg/common/config"
 	"github.com/cloudwego/hertz/pkg/common/test/assert"
 	"github.com/cloudwego/hertz/pkg/common/ut"
 	"github.com/cloudwego/hertz/pkg/route"
-	"net/http"
-	"testing"
 )
 
-const testXRequestID = "test-request-id"
-const customHeaderKey = "customKey"
+const (
+	testXRequestID  = "test-request-id"
+	customHeaderKey = "customKey"
+)
 
 func emptySuccessResponse(ctx context.Context, c *app.RequestContext) {
 	c.String(http.StatusOK, "")
@@ -73,7 +76,6 @@ func TestRequestIDWithCustomHeaderKey(t *testing.T) {
 }
 
 func TestRequestIDWithHandler(t *testing.T) {
-
 	called := false
 
 	r := hertzHandler(New(
@@ -92,7 +94,6 @@ func TestRequestIDWithHandler(t *testing.T) {
 }
 
 func TestGetRequestID(t *testing.T) {
-
 	r := route.NewEngine(hzconfig.NewOptions([]hzconfig.Option{}))
 	r.Use(New())
 	r.GET("/", func(ctx context.Context, c *app.RequestContext) {

@@ -48,3 +48,6 @@ h.GET("/ping", func(ctx context.Context, c *app.RequestContext) {
     c.JSON(consts.StatusOK, utils.H{"ping": "pong", "request-id": requestid.Get(c)})
 })
 ```
+
+## License
+This project is under the Apache License 2.0. See the LICENSE file for the full license text.

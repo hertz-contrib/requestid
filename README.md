@@ -1,8 +1,11 @@
-# RequestID
+# RequestID (This is a community driven project)
  
-Request ID middleware for Hertz framework. 
+Request ID middleware for Hertz framework, inspired by [requestid](https://github.com/gin-contrib/requestid), a Request ID middleware for Gin Framework.
+This project would not have been possible without the support from the CloudWeGo community and previous work done by the gin community.
+
 - Adds an identifier to the response using the `X-Request-ID` header. 
 - Passes the `X-Request-ID` value back to the caller if it's sent in the request headers.
+
 
 ## Install
 ```shell
@@ -10,7 +13,7 @@ go get https://github.com/hertz-contrib/requestid
 ```
 
 ## Usage
-
+### Example
 
 ```go
 func main() {
@@ -22,7 +25,7 @@ func main() {
          return "cloudwego.io"
       })),
       // set custom header for request id
-      requestid.WithCustomHeaderStrKey("your-customer-key"),
+      requestid.WithCustomHeaderStrKey("your-customised-key"),
 )
 
    // Example ping request.
@@ -34,7 +37,10 @@ func main() {
 }
 ```
 
-How to get the request identifier:
+### Getting the request ID
+
+`requestid.Get(c)` is a helper function to retrieve request id from request headers. It also works with customised header as defined with `WithCustomHeaderStrKey`. 
+Note that you may get empty string if it's not present in the request.
 
 ```go
 // Example / request.

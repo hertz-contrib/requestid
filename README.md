@@ -1,6 +1,6 @@
 # RequestID (This is a community driven project)
  
-Request ID middleware for Hertz framework, inspired by [requestid](https://github.com/gin-contrib/requestid), a Request ID middleware for Gin Framework.
+Request ID middleware for Hertz framework, inspired by [requestid](https://github.com/gin-contrib/requestid).
 This project would not have been possible without the support from the CloudWeGo community and previous work done by the gin community.
 
 - Adds an identifier to the response using the `X-Request-ID` header. 
@@ -9,7 +9,7 @@ This project would not have been possible without the support from the CloudWeGo
 
 ## Install
 ```shell
-go get https://github.com/hertz-contrib/requestid
+go get github.com/hertz-contrib/requestid
 ```
 
 ## Usage

@@ -36,9 +36,9 @@ func main() {
 		})),
 	)
 
-	// Example ping request.
+	// You may retrieve request id from header by calling requestid.Get
 	h.GET("/ping", func(ctx context.Context, c *app.RequestContext) {
-		c.JSON(consts.StatusOK, utils.H{"ping": "pong"})
+		c.JSON(consts.StatusOK, utils.H{"ping": "pong", "request-id": requestid.Get(c)})
 	})
 
 	h.Spin()

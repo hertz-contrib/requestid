@@ -17,23 +17,25 @@ go get github.com/hertz-contrib/requestid
 
 ```go
 func main() {
-   h := server.Default()
+    h := server.Default()
 
-   h.Use(
-      // provide your own request id generator here 
-      requestid.New(requestid.WithGenerator(func() string {
-         return "cloudwego.io"
-      })),
-      // set custom header for request id
-      requestid.WithCustomHeaderStrKey("your-customised-key"),
-)
-
-   // Example ping request.
-   h.GET("/ping", func(ctx context.Context, c *app.RequestContext) {
-      c.JSON(consts.StatusOK, utils.H{"ping": "pong"})
-   })
-
-   h.Spin()
+    h.Use(
+        // provide your own request id generator here
+        requestid.New(
+            requestid.WithGenerator(func() string {
+                return "cloudwego.io"
+            }),
+            // set custom header for request id
+            requestid.WithCustomHeaderStrKey("your-customised-key"),
+        ),
+    )
+    
+    // Example ping request.
+    h.GET("/ping", func(ctx context.Context, c *app.RequestContext) {
+        c.JSON(consts.StatusOK, utils.H{"ping": "pong"})
+    })
+    
+    h.Spin()
 }
 ```
 

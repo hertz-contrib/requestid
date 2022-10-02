@@ -97,5 +97,5 @@ type config struct {
 
 // Get returns the request identifier
 func Get(c *app.RequestContext) string {
-	return string(c.GetHeader(headerXRequestID))
+	return c.Response.Header.Get(headerXRequestID)
 }

@@ -111,13 +111,14 @@ func TestRequestIDWithHandler(t *testing.T) {
 
 func TestGetRequestID(t *testing.T) {
 	r := route.NewEngine(hzconfig.NewOptions([]hzconfig.Option{}))
-	r.Use(New())
+	r.Use(New(
+		WithGenerator(func() string {
+			return testXRequestID
+		}),
+	))
 	r.GET("/", func(ctx context.Context, c *app.RequestContext) {
 		assert.DeepEqual(t, testXRequestID, Get(c))
 	})
 
-	_ = ut.PerformRequest(r, http.MethodGet, "/", nil, ut.Header{
-		Key:   "X-Request-ID",
-		Value: testXRequestID,
-	})
+	_ = ut.PerformRequest(r, http.MethodGet, "/", nil)
 }

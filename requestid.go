@@ -58,6 +58,7 @@ func New(opts ...Option) app.HandlerFunc {
 		}
 		// Set the id to ensure that the request id is in the response
 		c.Header(headerXRequestID, rid)
+		c.Next(ctx)
 	}
 }
 

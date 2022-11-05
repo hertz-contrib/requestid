@@ -13,43 +13,14 @@ go get github.com/hertz-contrib/requestid
 ```
 
 ## Usage
-### Example
-
-```go
-func main() {
-    h := server.Default()
-
-    h.Use(
-        // provide your own request id generator here
-        requestid.New(
-            requestid.WithGenerator(func() string {
-                return "cloudwego.io"
-            }),
-            // set custom header for request id
-            requestid.WithCustomHeaderStrKey("your-customised-key"),
-        ),
-    )
-    
-    // Example ping request.
-    h.GET("/ping", func(ctx context.Context, c *app.RequestContext) {
-        c.JSON(consts.StatusOK, utils.H{"ping": "pong"})
-    })
-    
-    h.Spin()
-}
-```
-
-### Getting the request ID
-
-`requestid.Get(c)` is a helper function to retrieve request id from request headers. It also works with customised header as defined with `WithCustomHeaderStrKey`. 
-Note that you may get empty string if it's not present in the request.
-
-```go
-// Example / request.
-h.GET("/ping", func(ctx context.Context, c *app.RequestContext) {
-    c.JSON(consts.StatusOK, utils.H{"ping": "pong", "request-id": requestid.Get(c)})
-})
-```
+| usage                                                                                                                           | description                                                                                       |
+|---------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| [default](https://github.com/cloudwego/hertz-examples/blob/main/middleware/requestid/default/main.go)                           | This is using requestid by default                                                                |
+| [custom key](https://github.com/cloudwego/hertz-examples/blob/main/middleware/requestid/custom_key/main.go)                     | How to use requestid for custom key                                                               |
+| [custom generator](https://github.com/cloudwego/hertz-examples/blob/main/middleware/requestid/custom_generator/main.go)         | How to use requestid for custom generator                                                         |
+| [custom handler](https://github.com/cloudwego/hertz-examples/blob/main/middleware/requestid/custom_handler/main.go)             | How to use requestid for custom handler                                                           |
+| [get requestid](https://github.com/cloudwego/hertz-examples/blob/main/middleware/requestid/get_requestid/main.go)               | How to get requestid                                                                              |
+| [log with hertzlogrus](https://github.com/cloudwego/hertz-examples/blob/main/middleware/requestid/log_with_hertzlogrus/main.go) | How to log requestid with [hertzlogrus](https://github.com/hertz-contrib/logger/tree/main/logrus) |
 
 ## License
 This project is under the Apache License 2.0. See the LICENSE file for the full license text.

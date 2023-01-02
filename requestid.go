@@ -29,14 +29,14 @@ var headerXRequestID string
 type Option func(*config)
 
 type (
-	Generator func() string
+	Generator func(ctx context.Context, c *app.RequestContext) string
 	Handler   func(ctx context.Context, c *app.RequestContext, requestID string)
 )
 
 // New initializes the RequestID middleware.
 func New(opts ...Option) app.HandlerFunc {
 	cfg := &config{
-		generator: func() string {
+		generator: func(ctx context.Context, c *app.RequestContext) string {
 			return uuid.New().String()
 		},
 		headerKey: "X-Request-ID",
@@ -50,7 +50,7 @@ func New(opts ...Option) app.HandlerFunc {
 		// Get id from request
 		rid := c.Request.Header.Get(string(cfg.headerKey))
 		if rid == "" {
-			rid = cfg.generator()
+			rid = cfg.generator(ctx, c)
 		}
 		headerXRequestID = string(cfg.headerKey)
 		if cfg.handler != nil {
@@ -89,7 +89,7 @@ func WithHandler(handler Handler) Option {
 // Config defines the config for RequestID middleware
 type config struct {
 	// Generator defines a function to generate an ID.
-	// Optional. Default: func() string {
+	// Optional. Default: func(ctx context.Context, c *app.RequestContext) string {
 	//   return uuid.New().String()
 	// }
 	generator Generator

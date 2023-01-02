@@ -66,7 +66,7 @@ func TestPassThruRequestID(t *testing.T) {
 
 func TestRequestIDWithCustomGenerator(t *testing.T) {
 	r := hertzHandler(New(
-		WithGenerator(func() string {
+		WithGenerator(func(ctx context.Context, c *app.RequestContext) string {
 			return testXRequestID
 		}),
 	))
@@ -112,7 +112,7 @@ func TestRequestIDWithHandler(t *testing.T) {
 func TestGetRequestID(t *testing.T) {
 	r := route.NewEngine(hzconfig.NewOptions([]hzconfig.Option{}))
 	r.Use(New(
-		WithGenerator(func() string {
+		WithGenerator(func(ctx context.Context, c *app.RequestContext) string {
 			return testXRequestID
 		}),
 	))

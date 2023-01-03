@@ -1,18 +1,17 @@
-/*
- * Copyright 2022 CloudWeGo Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2022 CloudWeGo Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
 
 package requestid
 
@@ -29,14 +28,14 @@ var headerXRequestID string
 type Option func(*config)
 
 type (
-	Generator func() string
+	Generator func(ctx context.Context, c *app.RequestContext) string
 	Handler   func(ctx context.Context, c *app.RequestContext, requestID string)
 )
 
 // New initializes the RequestID middleware.
 func New(opts ...Option) app.HandlerFunc {
 	cfg := &config{
-		generator: func() string {
+		generator: func(ctx context.Context, c *app.RequestContext) string {
 			return uuid.New().String()
 		},
 		headerKey: "X-Request-ID",
@@ -50,7 +49,7 @@ func New(opts ...Option) app.HandlerFunc {
 		// Get id from request
 		rid := c.Request.Header.Get(string(cfg.headerKey))
 		if rid == "" {
-			rid = cfg.generator()
+			rid = cfg.generator(ctx, c)
 		}
 		headerXRequestID = string(cfg.headerKey)
 		if cfg.handler != nil {
@@ -89,7 +88,7 @@ func WithHandler(handler Handler) Option {
 // Config defines the config for RequestID middleware
 type config struct {
 	// Generator defines a function to generate an ID.
-	// Optional. Default: func() string {
+	// Optional. Default: func(ctx context.Context, c *app.RequestContext) string {
 	//   return uuid.New().String()
 	// }
 	generator Generator
